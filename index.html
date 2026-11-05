@@ -45,13 +45,13 @@ aside a.current{background:#1d4a45;color:var(--mint);font-weight:700}
 .slide.active .slide-inner>*:nth-child(3){animation-delay:.16s}
 .slide.active .slide-inner>*:nth-child(4){animation-delay:.24s}
 .slide.active .slide-inner>*:nth-child(n+5){animation-delay:.32s}
-.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.vgrid,.grid2k)>*{animation:rise .6s cubic-bezier(.2,.8,.2,1) backwards}
-.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.vgrid,.grid2k)>*:nth-child(1){animation-delay:.2s}
-.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.vgrid,.grid2k)>*:nth-child(2){animation-delay:.28s}
-.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.vgrid,.grid2k)>*:nth-child(3){animation-delay:.36s}
-.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.vgrid,.grid2k)>*:nth-child(4){animation-delay:.44s}
-.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.vgrid,.grid2k)>*:nth-child(5){animation-delay:.52s}
-.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.vgrid,.grid2k)>*:nth-child(6){animation-delay:.6s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.photos,.vgrid,.grid2k)>*{animation:rise .6s cubic-bezier(.2,.8,.2,1) backwards}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.photos,.vgrid,.grid2k)>*:nth-child(1){animation-delay:.2s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.photos,.vgrid,.grid2k)>*:nth-child(2){animation-delay:.28s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.photos,.vgrid,.grid2k)>*:nth-child(3){animation-delay:.36s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.photos,.vgrid,.grid2k)>*:nth-child(4){animation-delay:.44s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.photos,.vgrid,.grid2k)>*:nth-child(5){animation-delay:.52s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics,.tiles,.panels,.photos,.vgrid,.grid2k)>*:nth-child(6){animation-delay:.6s}
 
 .section-head{display:flex;align-items:center;gap:14px;margin:0 0 1.1rem}
 .num{min-width:2.6rem;height:2.6rem;padding:0 .5rem;border-radius:13px;background:#214b43;color:var(--mint);display:grid;place-items:center;font-weight:900;font-size:1rem;animation:glow 4s infinite}
@@ -166,6 +166,7 @@ p.big{margin:1rem 0 1.6rem}
 .light{width:clamp(90px,10vw,140px);height:auto}
 
 @media(max-width:900px){
+ .photos{grid-template-columns:1fr}
  .split{grid-template-columns:1fr}
  .panels{grid-template-columns:1fr}
  .vgrid{grid-template-columns:1fr 1fr}
@@ -173,6 +174,10 @@ p.big{margin:1rem 0 1.6rem}
 }
 @media(max-width:600px){.vgrid{grid-template-columns:1fr}.grid2k{grid-template-columns:1fr}}
 
+.photo{width:100%;height:auto;display:block;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow);background:#0e2529}
+.photos{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.photos figcaption{margin-top:.6rem;text-align:center}
+.photos figcaption b{font-size:.95rem}
 /* Barra de control: solo flechas */
 .controls{height:var(--bar);flex:none;display:flex;align-items:center;justify-content:center;gap:16px;padding:0 18px;background:rgba(7,26,29,.94);border-top:1px solid var(--line);position:relative;z-index:6;transition:transform .3s,opacity .3s}
 .nav-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#10292c;color:var(--mint);font:inherit;font-size:1.2rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s,transform .2s}
@@ -285,24 +290,12 @@ p.big{margin:1rem 0 1.6rem}
     <div class="slide-inner">
      <div class="split">
       <div>
-       <div class="eyebrow">Informe técnico: Visión artificial</div>
        <h1>¿Puede Mask R-CNN ayudar a vigilar la salud de los ríos?</h1>
        <p class="lead">Utilidad, compatibilidad, mantenimiento y riesgos de adopción en una empresa que inspecciona ríos con drones.</p>
-       <div class="hero-actions"><button class="btn primary" id="start">Comenzar →</button><a class="btn" href="https://github.com/matterport/Mask_RCNN" target="_blank" rel="noreferrer">Repositorio en GitHub ↗</a></div>
+       <div class="hero-actions"><button class="btn primary" id="start">Comenzar</button><a class="btn" href="https://github.com/matterport/Mask_RCNN" target="_blank" rel="noreferrer">Repositorio en GitHub ↗</a></div>
       </div>
       <div>
-       <svg class="art" viewBox="0 0 320 200" role="img" aria-label="Vista aérea de un río con residuos detectados y segmentados por un dron">
-        <use href="#scene" width="320" height="200"/>
-        <use href="#ov-mask" width="320" height="200"/>
-        <use href="#ov-box" width="320" height="200"/>
-        <use href="#ov-tags" width="320" height="200"/>
-        <g transform="translate(160 20)">
-         <polygon points="0,8 -48,44 48,44" fill="#8ce0bd" opacity=".14"/>
-         <line x1="-12" y1="0" x2="-22" y2="-6" stroke="#ecf6ef" stroke-width="2"/><line x1="12" y1="0" x2="22" y2="-6" stroke="#ecf6ef" stroke-width="2"/>
-         <ellipse cx="-22" cy="-8" rx="10" ry="2.2" fill="#8ce0bd"/><ellipse cx="22" cy="-8" rx="10" ry="2.2" fill="#8ce0bd"/>
-         <rect x="-13" y="-4" width="26" height="10" rx="5" fill="#ecf6ef"/><circle cx="0" cy="8" r="2.6" fill="#8ce0bd"/>
-        </g>
-       </svg>
+       <img class="photo" src="img/autos.png" alt="Mask R-CNN detectando y segmentando autos en una carretera" loading="eager">
       </div>
      </div>
      <div class="metrics">
@@ -311,7 +304,6 @@ p.big{margin:1rem 0 1.6rem}
       <div class="metric"><strong>15+</strong><span>Paquetes en requirements y extras</span></div>
       <div class="metric"><strong>Legacy</strong><span>Requiere modernización</span></div>
      </div>
-     <p class="hint">Navega con las flechas <span class="kbd">←</span> <span class="kbd">→</span>, la barra espaciadora o el índice. <span class="kbd">F</span> pantalla completa, <span class="kbd">T</span> oculta el índice.</p>
     </div>
    </section>
 
@@ -352,21 +344,32 @@ p.big{margin:1rem 0 1.6rem}
    <section class="slide" id="libreria" data-group="libreria">
     <div class="slide-inner">
      <div class="section-head"><div class="num">1</div><h2>¿Para qué sirve Mask R-CNN?</h2></div>
-     <div class="panels">
+     <div class="photos">
       <figure class="panel">
-       <svg class="art" viewBox="0 0 320 200"><use href="#scene" width="320" height="200"/><use href="#ov-tags" width="320" height="200"/></svg>
-       <figcaption><span class="tag">Clasificación</span><b>¿Qué parece ser?</b></figcaption>
+       <img class="photo" src="img/autos.png" alt="Autos detectados y segmentados en una carretera">
+       <figcaption><span class="tag">Clasificación</span><span class="tag warn">Detección</span><span class="tag info">Segmentación</span></figcaption>
       </figure>
       <figure class="panel">
-       <svg class="art" viewBox="0 0 320 200"><use href="#scene" width="320" height="200"/><use href="#ov-box" width="320" height="200"/><use href="#ov-tags" width="320" height="200"/></svg>
-       <figcaption><span class="tag warn">Detección</span><b>¿Dónde está?</b></figcaption>
-      </figure>
-      <figure class="panel">
-       <svg class="art" viewBox="0 0 320 200"><use href="#scene" width="320" height="200"/><use href="#ov-mask" width="320" height="200"/><use href="#ov-box" width="320" height="200"/><use href="#ov-tags" width="320" height="200"/></svg>
-       <figcaption><span class="tag info">Segmentación</span><b>¿Qué píxeles ocupa?</b></figcaption>
+       <img class="photo" src="img/animales.png" alt="Jirafa, elefante, vaca y oveja segmentados">
+       <figcaption><b>Etiqueta y confianza, caja punteada y máscara de color por cada objeto</b></figcaption>
       </figure>
      </div>
      <p class="cap">Detección de objetos y segmentación de instancias: clase, caja, confianza y máscara por cada objeto.</p>
+    </div>
+   </section>
+
+   <section class="slide" id="libreria-3" data-group="libreria">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">1</div><h2>Mismo principio, otros contextos</h2></div>
+     <div class="split">
+      <img class="photo" src="img/tienda.png" alt="Detección de personas, sillas y mesas en una tienda vista desde arriba">
+      <div>
+       <div class="yn y"><svg class="ico"><use href="#i-users"/></svg><div><b>Conteo de personas</b><span>Cajeros y clientes en una tienda</span></div></div>
+       <div class="yn y"><svg class="ico"><use href="#i-layers"/></svg><div><b>Ocupación de espacios</b><span>Mesas y sillas libres</span></div></div>
+       <div class="yn y"><svg class="ico"><use href="#i-camera"/></svg><div><b>Vista aérea</b><span>Como las imágenes del dron</span></div></div>
+       <small>Ejemplo de la herramienta Ultralytics (familia YOLO), mostrado como referencia de detección.</small>
+      </div>
+     </div>
     </div>
    </section>
 
@@ -609,7 +612,7 @@ p.big{margin:1rem 0 1.6rem}
    <!-- 5c -->
    <section class="slide" id="escenarios" data-group="escenarios">
     <div class="slide-inner">
-     <div class="section-head"><div class="num">5c</div><h2>¿En qué escenarios la usaría?</h2></div>
+     <div class="section-head"><div class="num">5c</div><h2>¿En qué escenarios la usariamos?</h2></div>
      <div class="grid2">
       <div class="card">
        <span class="tag">Sí la consideraría</span>
@@ -630,7 +633,6 @@ p.big{margin:1rem 0 1.6rem}
    <!-- Conclusión -->
    <section class="slide" id="conclusion" data-group="conclusion">
     <div class="slide-inner">
-     <div class="section-head"><div class="num">✓</div><h2>Conclusión general</h2></div>
      <div class="split">
       <svg class="art" viewBox="0 0 320 200" role="img" aria-label="Segmentación de residuos en un río"><use href="#scene" width="320" height="200"/><use href="#ov-mask" width="320" height="200"/></svg>
       <div>
@@ -638,18 +640,6 @@ p.big{margin:1rem 0 1.6rem}
        <div class="yn n"><svg class="ico"><use href="#i-alert"/></svg><div><b>Brecha frente a Python, TensorFlow y Keras actuales</b><span>Mantenerla tiene un costo relevante</span></div></div>
        <div class="yn y"><svg class="ico"><use href="#i-search"/></svg><div><b>Comparar modernizarla con una alternativa vigente</b></div></div>
       </div>
-     </div>
-    </div>
-   </section>
-
-   <section class="slide" id="conclusion-2" data-group="conclusion">
-    <div class="slide-inner">
-     <div class="section-head"><div class="num">✓</div><h2>Recomendación final</h2></div>
-     <p class="big">Referencia o prototipo de investigación, no solución productiva directa.</p>
-     <div class="tiles flow">
-      <div class="tile"><div class="step-n">1</div><b>Prueba de concepto</b><span>Con datos reales</span></div>
-      <div class="tile"><div class="step-n">2</div><b>Criterios de aceptación</b><span>Definidos antes de invertir</span></div>
-      <div class="tile"><div class="step-n">3</div><b>Sensores y laboratorio</b><span>Complementan la visión artificial</span></div>
      </div>
     </div>
    </section>

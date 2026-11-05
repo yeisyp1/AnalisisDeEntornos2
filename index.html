@@ -10,121 +10,161 @@
 :root{
  --bg:#f5f7f5;--panel:#ffffff;--panel2:#f0f4f1;--line:#d9e2dc;--text:#202b26;--muted:#68776e;
  --mint:#2e6b50;--lime:#527b45;--orange:#9a641e;--red:#a4473f;--blue:#376783;
- --shadow:0 2px 10px rgba(22,45,31,.045);--radius:8px
+ --radius:8px;--toc:240px;--bar:56px
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.72 Arial,Helvetica,sans-serif}
+html{font-size:clamp(15px,1.3vw,24px)}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.6 Arial,Helvetica,sans-serif;overflow:hidden}
 a{color:#286247;text-decoration:underline;text-underline-offset:2px}
 a:hover{color:#173e2d}
-header{padding:20px 28px 36px;background:#fff;border-bottom:1px solid var(--line)}
-header:after{display:none}
-.nav{display:flex;justify-content:space-between;align-items:center;gap:18px;max-width:1080px;margin:auto}
-.brand{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:#456b55;font-weight:700}
-.nav a{font-size:.84rem;color:#59675f;margin-left:16px}
-.hero{max-width:1080px;margin:46px auto 0}
-.eyebrow{color:#54745c;text-transform:uppercase;font-size:.72rem;font-weight:700;letter-spacing:.12em}
-h1{font-size:clamp(2rem,4.4vw,3.5rem);line-height:1.13;letter-spacing:-.035em;max-width:850px;margin:12px 0 16px;color:#1e3428}
-.hero p{max-width:760px;color:#59675f;font-size:1.05rem}
-main{max-width:1080px;margin:34px auto 70px;padding:0 24px;position:relative}
-.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;align-items:start}
-aside{position:sticky;top:20px;background:#fff;border:1px solid var(--line);border-radius:7px;padding:16px;box-shadow:none}
-aside h3{font-size:.72rem;color:#68776e;letter-spacing:.08em;text-transform:uppercase;margin:2px 8px 10px}
-aside a{display:block;padding:7px 9px;color:#43574a;border-radius:4px;font-size:.85rem;text-decoration:none;transition:background .2s,color .2s}
-aside a:hover{background:#edf3ee;color:#1e5b3b;transform:none}
-section{scroll-margin-top:24px;margin-bottom:26px}
-.section-head{display:flex;align-items:center;gap:12px;margin:0 0 13px}
-.num{width:32px;height:32px;border-radius:5px;background:#e7efe9;color:#315e43;display:grid;place-items:center;font-weight:700;font-size:.9rem}
-h2{font-size:clamp(1.4rem,2.6vw,1.85rem);letter-spacing:-.02em;line-height:1.25;margin:0;color:#20392b}
-h3{margin:0 0 8px;font-size:1.04rem;color:#293d31}
-p{margin:0 0 13px;color:#35443b}
-.card,.section-card{background:#fff;border:1px solid var(--line);border-radius:7px;box-shadow:none;padding:22px;margin:12px 0}
-.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:.7rem;font-weight:700;letter-spacing:.02em;background:#edf3ee;color:#315e43;margin:0 4px 6px 0}
+
+/* Estructura de la presentación */
+.app{display:grid;grid-template-columns:var(--toc) minmax(0,1fr);height:100vh;height:100dvh}
+.app.toc-hidden{grid-template-columns:0 minmax(0,1fr)}
+aside{background:#fff;border-right:1px solid var(--line);padding:18px 14px;overflow-y:auto;overflow-x:hidden;transition:padding .2s}
+.app.toc-hidden aside{padding:0;border-right:0}
+aside h3{font-size:.72rem;color:#68776e;letter-spacing:.08em;text-transform:uppercase;margin:2px 8px 12px}
+aside a{display:block;padding:8px 10px;color:#43574a;border-radius:5px;font-size:.85rem;line-height:1.35;text-decoration:none;transition:background .2s,color .2s;margin-bottom:2px}
+aside a:hover{background:#edf3ee;color:#1e5b3b}
+aside a.current{background:#e3eee6;color:#1e5b3b;font-weight:700}
+.stage{display:flex;flex-direction:column;min-width:0;height:100%}
+.viewport{position:relative;flex:1;min-height:0;overflow:hidden}
+
+/* Diapositivas */
+.slide{position:absolute;inset:0;display:none;overflow-y:auto;padding:2.2rem 3.2rem}
+.slide.active{display:flex;animation:enter .4s ease}
+@keyframes enter{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.slide-inner{margin:auto;width:100%;max-width:1120px}
+.section-head{display:flex;align-items:center;gap:14px;margin:0 0 1.1rem}
+.num{min-width:2.4rem;height:2.4rem;padding:0 .4rem;border-radius:6px;background:#e7efe9;color:#315e43;display:grid;place-items:center;font-weight:700;font-size:1rem}
+h1{font-size:clamp(2.2rem,4.4vw,4rem);line-height:1.12;letter-spacing:-.035em;max-width:920px;margin:14px 0 18px;color:#1e3428}
+h2{font-size:clamp(1.6rem,2.8vw,2.4rem);letter-spacing:-.02em;line-height:1.2;margin:0;color:#20392b}
+h3{margin:0 0 8px;font-size:1.1rem;color:#293d31}
+p{margin:0 0 .8rem;color:#35443b}
+.eyebrow{color:#54745c;text-transform:uppercase;font-size:.8rem;font-weight:700;letter-spacing:.12em}
+.lead{max-width:800px;color:#59675f;font-size:1.2rem}
+.hint{margin-top:2rem;font-size:.85rem;color:#68776e}
+.kbd{display:inline-block;border:1px solid #c9d6cd;border-bottom-width:2px;border-radius:4px;padding:0 6px;background:#fff;font-size:.8rem;color:#43574a}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:1.4rem;margin:.8rem 0}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
+.grid2>.card,.grid3>.card{margin:0}
+.tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:.75rem;font-weight:700;letter-spacing:.02em;background:#edf3ee;color:#315e43;margin:0 4px 6px 0}
 .tag.warn{background:#f7f0e5;color:#80551e}.tag.bad{background:#f8eae8;color:#91443d}.tag.info{background:#eaf1f5;color:#376783}
-ul{padding-left:21px;color:#35443b;margin:7px 0 0}li{margin:6px 0}
-.callout{border-left:3px solid #5b8768;padding:12px 15px;background:#f1f6f2;border-radius:0 4px 4px 0;color:#34483a;margin:16px 0}
+ul{padding-left:1.3rem;color:#35443b;margin:.4rem 0 0}li{margin:.4rem 0}
+.callout{border-left:4px solid #5b8768;padding:.8rem 1rem;background:#f1f6f2;border-radius:0 4px 4px 0;color:#34483a;margin:1rem 0}
 .callout.warning{border-left-color:#b17b35;background:#faf5ec}
-table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:680px}
-.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:5px;margin:13px 0}
-th,td{text-align:left;padding:11px 12px;border-bottom:1px solid #e3e9e4;vertical-align:top}
-th{background:#edf2ee;color:#314e3b;font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+.table-wrap{border:1px solid var(--line);border-radius:6px;margin:.8rem 0;background:#fff}
+th,td{text-align:left;padding:.6rem .75rem;border-bottom:1px solid #e3e9e4;vertical-align:top}
+th{background:#edf2ee;color:#314e3b;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
 td{color:#35443b}tr:last-child td{border-bottom:0}
 small,.muted{color:var(--muted)}
-.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
-.step{background:#f4f7f4;border:1px solid #dce6de;border-radius:5px;padding:12px;text-align:center}
-.step b{display:block;color:#315e43;font-size:.88rem}
-.step span{font-size:.76rem;color:#68776e}
-.kpi-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-.kpi{padding:10px 13px;background:#f2f6f2;border:1px solid #e0e8e1;border-radius:5px;flex:1;min-width:120px}
-.kpi b{display:block;color:#315e43;font-size:1.3rem}
-.kpi span{font-size:.74rem;color:#68776e}
-details{border:1px solid var(--line);background:#fff;border-radius:5px;padding:12px 15px;margin:9px 0}
-summary{cursor:pointer;font-weight:700;color:#315e43}
-footer{border-top:1px solid var(--line);padding:25px 20px 35px;text-align:center;background:#fff;color:#68776e;font-size:.82rem}
-.reveal{opacity:0;transform:translateY(12px);transition:opacity .45s ease,transform .45s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.float{animation:none}
-@media(max-width:850px){.layout{grid-template-columns:1fr}aside{position:relative;top:auto;display:grid;grid-template-columns:repeat(2,1fr)}aside h3{grid-column:1/-1}.grid3{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.nav nav{display:none}.hero{margin-top:32px}.grid2,.grid3,.pipeline{grid-template-columns:1fr}aside{grid-template-columns:1fr 1fr}main{padding:0 14px}.card{padding:17px}header{padding-left:18px;padding-right:18px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
-@media print{body{background:#fff;color:#111}header{background:#fff;color:#111;padding:18px;border-bottom:1px solid #aaa}.layout{display:block}aside{display:none}.card{box-shadow:none;background:#fff;border:1px solid #aaa;break-inside:avoid}.reveal{opacity:1;transform:none}a{color:#064}}
+small{font-size:.8rem;display:block;margin-top:.5rem}
+.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin:1.1rem 0}
+.step{background:#f4f7f4;border:1px solid #dce6de;border-radius:6px;padding:.9rem;text-align:center}
+.step b{display:block;color:#315e43;font-size:1rem}
+.step span{font-size:.85rem;color:#68776e}
+.kpi-row{display:flex;gap:.7rem;flex-wrap:wrap;margin:1rem 0}
+.kpi{padding:.9rem 1.1rem;background:#f2f6f2;border:1px solid #e0e8e1;border-radius:6px;flex:1;min-width:140px}
+.kpi b{display:block;color:#315e43;font-size:2rem;line-height:1.2}
+.kpi span{font-size:.85rem;color:#68776e}
+
+/* Barra de control */
+.controls{height:var(--bar);flex:none;display:flex;align-items:center;gap:12px;padding:0 18px;background:#fff;border-top:1px solid var(--line)}
+.controls button{font:inherit;font-size:.85rem;border:1px solid #c9d6cd;background:#fff;color:#315e43;border-radius:6px;padding:6px 14px;cursor:pointer}
+.controls button:hover{background:#edf3ee}
+.controls button:disabled{opacity:.4;cursor:default}
+.progress{flex:1;height:5px;background:#e3e9e4;border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:#4f8a69;transition:width .3s}
+.count{font-size:.85rem;color:#59675f;min-width:62px;text-align:center}
+.spacer{width:1px;height:22px;background:var(--line)}
+
+@media(max-width:900px){
+ .app,.app.toc-hidden{grid-template-columns:0 minmax(0,1fr)}
+ aside{padding:0;border:0}
+ .app.toc-open{grid-template-columns:minmax(0,1fr) 0}
+ .app.toc-open aside{padding:18px 14px;border-right:1px solid var(--line)}
+ .app.toc-open .stage{display:none}
+ .slide{padding:1.4rem 1.1rem}
+ .grid3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){.grid2,.grid3,.pipeline{grid-template-columns:1fr}.hint{display:none}.controls #fs{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+@media print{
+ body{overflow:visible;background:#fff}.app{display:block;height:auto}aside,.controls{display:none}
+ .stage,.viewport{display:block;height:auto;overflow:visible}
+ .slide,.slide.active{position:static;display:block;overflow:visible;padding:18px 0;break-after:page;animation:none}
+ .card,.table-wrap{break-inside:avoid}
+}
 
 </style>
 </head>
 <body>
-<header>
- <div class="nav"><div class="brand">Informe técnico: Visión artificial</div><nav><a href="#libreria">La librería</a><a href="#dependencias">Dependencias</a><a href="#issues">Issues</a><a href="#conclusion">Conclusión</a></nav></div>
- <div class="hero">
-  <div class="eyebrow">Evaluación tecnológica: Caso agroindustrial</div>
-  <h1>¿Puede Mask R-CNN ayudar a vigilar la salud de los ríos?</h1>
-  <p>Análisis técnico de la librería de Matterport para valorar su utilidad, compatibilidad, mantenimiento y riesgos de adopción en una empresa que inspecciona ríos mediante drones.</p>
-  
- </div>
-</header>
-<main id="resumen">
- <div class="layout">
-  <aside>
-   <h3>Contenido del taller</h3>
-   <a href="#contexto">Caso y enfoque</a><a href="#libreria">1. ¿Qué es Mask R-CNN?</a>
-   <a href="#dependencias">2. Lenguaje y dependencias</a><a href="#versiones">3. Versiones</a>
-   <a href="#issues">4. Issues de GitHub</a><a href="#recomendacion">5a. ¿La recomendaría?</a>
-   <a href="#factores">5b. Factores críticos</a><a href="#escenarios">5c. Escenarios de uso</a>
-   <a href="#conclusion">Conclusión</a><a href="#fuentes">Fuentes</a>
-  </aside>
-  <div>
-   <section id="contexto" class="reveal">
-    <div class="section-head"><div class="num">01</div><h2>Contexto del caso</h2></div>
-    <div class="card">
-     <p>La empresa ya dispone de drones y de un operador que captura imágenes aéreas de alta resolución. El reto consiste en analizarlas para identificar indicios visuales de contaminación y, cuando sea posible, clasificar el tipo observado.</p>
-     <p>La evaluación no pretende construir el sistema ni afirmar que una fotografía permita medir la calidad química del agua. Se analiza si la tecnología es adecuada como componente de un futuro sistema de apoyo a la inspección.</p>
-     <div class="pipeline">
-      <div class="step"><b>Captura</b><span>Drones y operador</span></div><div class="step"><b>Preparación</b><span>Calidad, recorte y etiquetado</span></div>
-      <div class="step"><b>Inferencia</b><span>Detección y máscaras</span></div><div class="step"><b>Validación</b><span>Revisión técnica y ambiental</span></div>
-     </div>
-     <div class="callout warning"><b>Alcance importante:</b> Mask R-CNN detecta patrones visibles. No identifica por sí sola contaminantes disueltos, metales pesados, bacterias ni parámetros como pH o DBO. Para eso se requieren sensores, muestreos y análisis de laboratorio.</div>
+<div class="app" id="app">
+ <aside id="toc">
+  <h3>Contenido del taller</h3>
+  <a href="#resumen">Portada</a>
+  <a href="#contexto">Caso y enfoque</a><a href="#libreria">1. ¿Qué es Mask R-CNN?</a>
+  <a href="#dependencias">2. Lenguaje y dependencias</a><a href="#versiones">3. Versiones</a>
+  <a href="#issues">4. Issues de GitHub</a><a href="#recomendacion">5a. ¿La recomendaría?</a>
+  <a href="#factores">5b. Factores críticos</a><a href="#escenarios">5c. Escenarios de uso</a>
+  <a href="#conclusion">Conclusión</a><a href="#fuentes">Fuentes</a>
+ </aside>
+
+ <div class="stage">
+  <div class="viewport" id="viewport">
+
+   <!-- Portada -->
+   <section class="slide" id="resumen" data-group="resumen">
+    <div class="slide-inner">
+     <div class="eyebrow">Informe técnico: Visión artificial</div>
+     <h1>¿Puede Mask R-CNN ayudar a vigilar la salud de los ríos?</h1>
+     <p class="lead">Análisis técnico de la librería de Matterport para valorar su utilidad, compatibilidad, mantenimiento y riesgos de adopción en una empresa que inspecciona ríos mediante drones.</p>
+     <p class="muted">Evaluación tecnológica: Caso agroindustrial</p>
+     <p class="hint">Navega con las flechas <span class="kbd">←</span> <span class="kbd">→</span>, la barra espaciadora o el índice de la izquierda. <span class="kbd">F</span> pantalla completa, <span class="kbd">T</span> oculta el índice.</p>
     </div>
    </section>
 
-   <section id="libreria" class="reveal">
-    <div class="section-head"><div class="num">1</div><h2>¿Para qué sirve Mask R-CNN?</h2></div>
-    <div class="card">
-     <p>Mask R-CNN es una arquitectura de aprendizaje profundo para <b>detección de objetos y segmentación de instancias</b>. Para cada objeto identificado en una imagen produce una clase, un cuadro delimitador, una puntuación de confianza y una máscara que delimita los píxeles pertenecientes a esa instancia.</p>
-     <div class="grid3">
-      <div><span class="tag">Clasificación</span><h3>¿Qué parece ser?</h3><p>Asigna una categoría a cada objeto detectado, según las clases con las que fue entrenado.</p></div>
-      <div><span class="tag">Detección</span><h3>¿Dónde está?</h3><p>Ubica el objeto por medio de un rectángulo o bounding box.</p></div>
-      <div><span class="tag">Segmentación</span><h3>¿Qué píxeles ocupa?</h3><p>Genera una máscara precisa por instancia, útil cuando hay regiones irregulares.</p></div>
+   <!-- Contexto -->
+   <section class="slide" id="contexto" data-group="contexto">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">01</div><h2>Contexto del caso</h2></div>
+     <div class="card">
+      <p>La empresa ya dispone de drones y de un operador que captura imágenes aéreas de alta resolución. El reto consiste en analizarlas para identificar indicios visuales de contaminación y, cuando sea posible, clasificar el tipo observado.</p>
+      <p>La evaluación no pretende construir el sistema ni afirmar que una fotografía permita medir la calidad química del agua. Se analiza si la tecnología es adecuada como componente de un futuro sistema de apoyo a la inspección.</p>
+      <div class="pipeline">
+       <div class="step"><b>Captura</b><span>Drones y operador</span></div><div class="step"><b>Preparación</b><span>Calidad, recorte y etiquetado</span></div>
+       <div class="step"><b>Inferencia</b><span>Detección y máscaras</span></div><div class="step"><b>Validación</b><span>Revisión técnica y ambiental</span></div>
+      </div>
+      <div class="callout warning"><b>Alcance importante:</b> Mask R-CNN detecta patrones visibles. No identifica por sí sola contaminantes disueltos, metales pesados, bacterias ni parámetros como pH o DBO. Para eso se requieren sensores, muestreos y análisis de laboratorio.</div>
      </div>
-     <p>La implementación de Matterport se basa en una Feature Pyramid Network (FPN) y una red troncal ResNet-101. El repositorio incluye pesos preentrenados en MS COCO, código de entrenamiento, evaluación y notebooks para inspeccionar el proceso.</p>
-     <div class="callout">Aplicación posible al caso: después de crear un conjunto de imágenes aéreas etiquetadas por especialistas, el modelo podría aprender a segmentar indicios visuales definidos (por ejemplo, manchas superficiales, espuma o residuos flotantes) siempre que sean distinguibles en las imágenes y estén representados en los datos de entrenamiento.</div>
-     <small>Fuente primaria: <a href="https://github.com/matterport/Mask_RCNN" target="_blank">README de Matterport Mask R-CNN</a>.</small>
     </div>
    </section>
 
-   <section id="dependencias" class="reveal">
-    <div class="section-head"><div class="num">2</div><h2>Lenguaje y dependencias</h2></div>
-    <div class="card">
+   <!-- 1. Librería -->
+   <section class="slide" id="libreria" data-group="libreria">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">1</div><h2>¿Para qué sirve Mask R-CNN?</h2></div>
+     <div class="card">
+      <p>Mask R-CNN es una arquitectura de aprendizaje profundo para <b>detección de objetos y segmentación de instancias</b>. Para cada objeto identificado en una imagen produce una clase, un cuadro delimitador, una puntuación de confianza y una máscara que delimita los píxeles pertenecientes a esa instancia.</p>
+      <div class="grid3">
+       <div><span class="tag">Clasificación</span><h3>¿Qué parece ser?</h3><p>Asigna una categoría a cada objeto detectado, según las clases con las que fue entrenado.</p></div>
+       <div><span class="tag">Detección</span><h3>¿Dónde está?</h3><p>Ubica el objeto por medio de un rectángulo o bounding box.</p></div>
+       <div><span class="tag">Segmentación</span><h3>¿Qué píxeles ocupa?</h3><p>Genera una máscara precisa por instancia, útil cuando hay regiones irregulares.</p></div>
+      </div>
+      <p>La implementación de Matterport se basa en una Feature Pyramid Network (FPN) y una red troncal ResNet-101. El repositorio incluye pesos preentrenados en MS COCO, código de entrenamiento, evaluación y notebooks para inspeccionar el proceso.</p>
+      <div class="callout">Aplicación posible al caso: después de crear un conjunto de imágenes aéreas etiquetadas por especialistas, el modelo podría aprender a segmentar indicios visuales definidos (por ejemplo, manchas superficiales, espuma o residuos flotantes) siempre que sean distinguibles en las imágenes y estén representados en los datos de entrenamiento.</div>
+      <small>Fuente primaria: <a href="https://github.com/matterport/Mask_RCNN" target="_blank">README de Matterport Mask R-CNN</a>.</small>
+     </div>
+    </div>
+   </section>
+
+   <!-- 2. Dependencias -->
+   <section class="slide" id="dependencias" data-group="dependencias">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">2</div><h2>Lenguaje y dependencias</h2></div>
      <p>La implementación funciona en <b>Python 3</b>. El README declara Keras y TensorFlow como base del modelo. El archivo <code>requirements.txt</code> enumera los paquetes auxiliares de abajo. Estas dependencias cubren cálculo numérico, procesamiento de imágenes, visualización, entrenamiento y trabajo interactivo.</p>
      <div class="table-wrap"><table>
       <thead><tr><th>Dependencia</th><th>Función dentro del ecosistema</th><th>Por qué importa en el caso</th></tr></thead>
@@ -135,6 +175,17 @@ footer{border-top:1px solid var(--line);padding:25px 20px 35px;text-align:center
        <tr><td><b>SciPy</b></td><td>Algoritmos científicos: interpolación, transformaciones y operaciones numéricas.</td><td>Procesamiento auxiliar de datos y transformaciones de imagen.</td></tr>
        <tr><td><b>Pillow</b></td><td>Lectura, escritura y manipulación básica de imágenes.</td><td>Ingreso y conversión de imágenes capturadas por drones.</td></tr>
        <tr><td><b>Cython</b></td><td>Compila extensiones que combinan Python con C.</td><td>Utilidades de rendimiento y compilación de componentes.</td></tr>
+      </tbody>
+     </table></div>
+    </div>
+   </section>
+
+   <section class="slide" id="dependencias-2" data-group="dependencias">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">2</div><h2>Lenguaje y dependencias (continuación)</h2></div>
+     <div class="table-wrap"><table>
+      <thead><tr><th>Dependencia</th><th>Función dentro del ecosistema</th><th>Por qué importa en el caso</th></tr></thead>
+      <tbody>
        <tr><td><b>Matplotlib</b></td><td>Gráficas y visualización de resultados.</td><td>Inspeccionar máscaras, métricas y resultados de entrenamiento.</td></tr>
        <tr><td><b>scikit-image</b></td><td>Procesamiento de imágenes con herramientas científicas.</td><td>Transformaciones y operaciones sobre imágenes.</td></tr>
        <tr><td><b>OpenCV (opencv-python)</b></td><td>Visión artificial: filtros, geometría, lectura y manipulación de imágenes.</td><td>Preprocesar imágenes y conectar con otros módulos de visión.</td></tr>
@@ -148,9 +199,10 @@ footer{border-top:1px solid var(--line);padding:25px 20px 35px;text-align:center
     </div>
    </section>
 
-   <section id="versiones" class="reveal">
-    <div class="section-head"><div class="num">3</div><h2>Comparación de versiones recomendadas y actuales</h2></div>
-    <div class="card">
+   <!-- 3. Versiones -->
+   <section class="slide" id="versiones" data-group="versiones">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">3</div><h2>Versiones recomendadas y actuales</h2></div>
      <p>El repositorio presenta una base de software de 2017. En <code>requirements.txt</code> solo fija mínimos para TensorFlow y Keras (TensorFlow ≥1.3.0 y Keras ≥2.0.8), no un lockfile reproducible. Por ello, las versiones de ese archivo no deben interpretarse como una matriz moderna de compatibilidad.</p>
      <div class="table-wrap"><table>
       <thead><tr><th>Paquete</th><th>Referencia del proyecto</th><th>Versión actual consultada (nov. 2026)</th><th>Lectura técnica</th></tr></thead>
@@ -159,26 +211,59 @@ footer{border-top:1px solid var(--line);padding:25px 20px 35px;text-align:center
        <tr><td>TensorFlow</td><td>≥ 1.3.0</td><td>2.21.0</td><td><span class="tag bad">Riesgo alto</span> Cambio mayor de API y ejecución; no asumir compatibilidad directa.</td></tr>
        <tr><td>Keras</td><td>≥ 2.0.8</td><td>3.15.1</td><td><span class="tag bad">Riesgo alto</span> La implementación fue creada para Keras 2; migrar requiere adaptación y pruebas.</td></tr>
        <tr><td>NumPy</td><td>Sin versión fijada</td><td>2.5.4</td><td><span class="tag bad">Riesgo alto</span> Cambios binarios/API pueden generar incompatibilidades con dependencias antiguas.</td></tr>
+      </tbody>
+     </table></div>
+    </div>
+   </section>
+
+   <section class="slide" id="versiones-2" data-group="versiones">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">3</div><h2>Versiones (continuación)</h2></div>
+     <div class="table-wrap"><table>
+      <thead><tr><th>Paquete</th><th>Referencia del proyecto</th><th>Versión actual consultada (nov. 2026)</th><th>Lectura técnica</th></tr></thead>
+      <tbody>
        <tr><td>SciPy</td><td>Sin versión fijada</td><td>1.18.1</td><td><span class="tag warn">Validar</span> Deben verificarse funciones retiradas y compatibilidad con el resto del entorno.</td></tr>
        <tr><td>Pillow</td><td>Sin versión fijada</td><td>13.0.0</td><td><span class="tag warn">Validar</span> La rama actual puede no admitir entornos Python antiguos; fijar versión junto con Python.</td></tr>
        <tr><td>Cython</td><td>Sin versión fijada</td><td>3.3.1</td><td><span class="tag warn">Validar</span> Compiladores y extensiones antiguas pueden requerir ajustes.</td></tr>
        <tr><td>Matplotlib</td><td>Sin versión fijada</td><td>3.11.2</td><td><span class="tag">Menor</span> Dependencia de visualización; fijar versión compatible con Python y NumPy.</td></tr>
        <tr><td>scikit-image</td><td>Sin versión fijada</td><td>0.26.0 estable</td><td><span class="tag warn">Validar</span> Comprobar cambios de API y requisitos de NumPy/SciPy.</td></tr>
+      </tbody>
+     </table></div>
+    </div>
+   </section>
+
+   <section class="slide" id="versiones-3" data-group="versiones">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">3</div><h2>Versiones (continuación)</h2></div>
+     <div class="table-wrap"><table>
+      <thead><tr><th>Paquete</th><th>Referencia del proyecto</th><th>Versión actual consultada (nov. 2026)</th><th>Lectura técnica</th></tr></thead>
+      <tbody>
        <tr><td>OpenCV</td><td>opencv-python, sin versión</td><td>5.0.0 (paquete 5.0.0.93)</td><td><span class="tag warn">Validar</span> La versión actual no implica compatibilidad probada con este repositorio legacy.</td></tr>
        <tr><td>h5py</td><td>Sin versión fijada</td><td>3.16.0</td><td><span class="tag warn">Validar</span> Verificar lectura de pesos HDF5 generados por versiones previas.</td></tr>
        <tr><td>imgaug</td><td>Sin versión fijada</td><td>0.4.0 (última publicada)</td><td><span class="tag bad">Obsoleta</span> No muestra una línea de lanzamientos recientes; aumenta el riesgo de mantenimiento.</td></tr>
        <tr><td>IPython</td><td>IPython[all]</td><td>9.18.1</td><td><span class="tag">Menor</span> Principalmente afecta notebooks y herramientas interactivas.</td></tr>
       </tbody>
      </table></div>
-     <p><b>Comentario de la comparación.</b> Existe una brecha importante entre el stack del repositorio y las versiones actuales. El problema central no es que las versiones nuevas sean “malas”, sino que la implementación original depende de APIs, formatos y supuestos propios de TensorFlow/Keras antiguos. NumPy 2.x, Keras 3 y TensorFlow 2.x/2.21 no deben instalarse encima del proyecto esperando que funcione sin cambios. Es más seguro crear un entorno aislado y reproducible con versiones compatibles, o migrar la implementación y ejecutar una batería de pruebas.</p>
-     <div class="callout">En una empresa, esto se traduce en costo de mantenimiento: entornos congelados, imágenes Docker, control de vulnerabilidades, personal que conozca el stack y un plan de migración. También conviene comparar con implementaciones más mantenidas de Mask R-CNN o modelos modernos equivalentes antes de invertir.</div>
      <small>Versiones tomadas de las páginas oficiales/PyPI consultadas a noviembre de 2026; pueden cambiar. Fuentes: <a href="https://pypi.org/project/numpy/" target="_blank">NumPy</a>, <a href="https://pypi.org/project/scipy/" target="_blank">SciPy</a>, <a href="https://pypi.org/project/tensorflow/" target="_blank">TensorFlow</a>, <a href="https://pypi.org/project/keras/" target="_blank">Keras</a>, <a href="https://pypi.org/project/Pillow/" target="_blank">Pillow</a>, <a href="https://pypi.org/project/Cython/" target="_blank">Cython</a>, <a href="https://pypi.org/project/matplotlib/" target="_blank">Matplotlib</a>, <a href="https://pypi.org/project/scikit-image/" target="_blank">scikit-image</a>, <a href="https://pypi.org/project/opencv-python/" target="_blank">OpenCV</a>, <a href="https://pypi.org/project/h5py/" target="_blank">h5py</a>, <a href="https://pypi.org/project/imgaug/" target="_blank">imgaug</a>, <a href="https://pypi.org/project/ipython/" target="_blank">IPython</a> y <a href="https://www.python.org/downloads/" target="_blank">Python</a>.</small>
+     <div class="callout">En una empresa, esto se traduce en costo de mantenimiento: entornos congelados, imágenes Docker, control de vulnerabilidades, personal que conozca el stack y un plan de migración. También conviene comparar con implementaciones más mantenidas de Mask R-CNN o modelos modernos equivalentes antes de invertir.</div>
     </div>
    </section>
 
-   <section id="issues" class="reveal">
-    <div class="section-head"><div class="num">4</div><h2>Estado de los issues en GitHub</h2></div>
-    <div class="card">
+   <section class="slide" id="versiones-4" data-group="versiones">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">3</div><h2>Comentario de la comparación</h2></div>
+     <div class="card">
+      <p>Existe una brecha importante entre el stack del repositorio y las versiones actuales. El problema central no es que las versiones nuevas sean “malas”, sino que la implementación original depende de APIs, formatos y supuestos propios de TensorFlow/Keras antiguos.</p>
+      <p>NumPy 2.x, Keras 3 y TensorFlow 2.x/2.21 no deben instalarse encima del proyecto esperando que funcione sin cambios.</p>
+      <p>Es más seguro crear un entorno aislado y reproducible con versiones compatibles, o migrar la implementación y ejecutar una batería de pruebas.</p>
+     </div>
+    </div>
+   </section>
+
+   <!-- 4. Issues -->
+   <section class="slide" id="issues" data-group="issues">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">4</div><h2>Estado de los issues en GitHub</h2></div>
      <p>Se consultó la API pública del repositorio <a href="https://github.com/matterport/Mask_RCNN/issues" target="_blank">matterport/Mask_RCNN: Issues</a>. La lista de GitHub mezcla issues y pull requests en el endpoint general. Para responder sobre “casos” de soporte, se excluyeron los registros con campo <code>pull_request</code> y se contaron los issues auténticos. El corte consultado corresponde a noviembre de 2026.</p>
      <div class="kpi-row">
       <div class="kpi"><b>354</b><span>Issues en la muestra consultada</span></div>
@@ -187,101 +272,217 @@ footer{border-top:1px solid var(--line);padding:25px 20px 35px;text-align:center
       <div class="kpi"><b>38,1 días</b><span>Promedio en cerrados con fechas</span></div>
      </div>
      <div class="callout warning"><b>Alcance del conteo:</b> la API se recorrió en cuatro páginas de 100 registros (400 entradas recientes). En ellas se identificaron 354 issues, excluyendo 46 pull requests. Estos valores representan el conjunto paginado consultado, no garantizan el total histórico completo de todos los issues del repositorio. Para un inventario exhaustivo, habría que agotar la paginación de toda la colección y guardar el corte con fecha.</div>
-     <h3>4a a 4c. Totales del corte verificado</h3>
+    </div>
+   </section>
+
+   <section class="slide" id="issues-2" data-group="issues">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">4</div><h2>Totales del corte verificado (4a a 4c)</h2></div>
      <div class="table-wrap"><table><thead><tr><th>Pregunta</th><th>Resultado</th><th>Interpretación</th></tr></thead>
       <tbody><tr><td>a. ¿Cuántos casos en total existen?</td><td><b>354</b></td><td>Issues en las cuatro páginas consultadas, sin pull requests.</td></tr>
       <tr><td>b. ¿Cuántos están abiertos?</td><td><b>282</b></td><td>Casos que permanecen pendientes/abiertos en el corte.</td></tr>
       <tr><td>c. ¿Cuántos están cerrados?</td><td><b>72</b></td><td>Casos con estado cerrado en el corte.</td></tr>
-      <tr><td>d. ¿Tiempo promedio de resolución?</td><td><b>38,1 días</b></td><td>Media aritmética de (closed_at − created_at) para los 72 cerrados con ambas fechas.</td></tr></tbody></table></div>
+      <tr><td>d. ¿Tiempo promedio de resolución?</td><td><b>38,1 días</b></td><td>Media aritmética de (closed_at - created_at) para los 72 cerrados con ambas fechas.</td></tr></tbody></table></div>
      <p><b>4d. Cálculo:</b> para cada issue cerrado se restó la fecha de creación a la fecha de cierre, convirtiendo el resultado a días. Después se calculó la media de los 72 tiempos observables. La media es sensible a casos extremos; además, no representa los tickets abiertos, que aún no tienen un tiempo final de resolución.</p>
-     <h3>Temas que se repiten en los reportes</h3>
+    </div>
+   </section>
+
+   <section class="slide" id="issues-3" data-group="issues">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">4</div><h2>Temas que se repiten en los reportes</h2></div>
      <div class="grid2">
-      <div><span class="tag bad">Compatibilidad</span><p>Errores de binarios y versiones de NumPy, TensorFlow/Keras y paquetes científicos.</p></div>
-      <div><span class="tag warn">Instalación</span><p>Problemas construyendo o instalando OpenCV y configurando entornos.</p></div>
-      <div><span class="tag info">Entrenamiento</span><p>Entrenamientos lentos, GPU, configuración, desequilibrio de clases y resultados pobres.</p></div>
-      <div><span class="tag">Soporte</span><p>Preguntas sobre adaptar datasets, clases y máscaras al dominio del usuario.</p></div>
+      <div class="card"><span class="tag bad">Compatibilidad</span><p>Errores de binarios y versiones de NumPy, TensorFlow/Keras y paquetes científicos.</p></div>
+      <div class="card"><span class="tag warn">Instalación</span><p>Problemas construyendo o instalando OpenCV y configurando entornos.</p></div>
+      <div class="card"><span class="tag info">Entrenamiento</span><p>Entrenamientos lentos, GPU, configuración, desequilibrio de clases y resultados pobres.</p></div>
+      <div class="card"><span class="tag">Soporte</span><p>Preguntas sobre adaptar datasets, clases y máscaras al dominio del usuario.</p></div>
      </div>
      <small>Fuente: GitHub API pública, <a href="https://api.github.com/repos/matterport/Mask_RCNN/issues?state=all&per_page=100&page=1" target="_blank">página 1</a> y siguientes páginas del mismo endpoint.</small>
     </div>
    </section>
 
-   <section id="recomendacion" class="reveal">
-    <div class="section-head"><div class="num">5a</div><h2>¿Recomendaría la librería?</h2></div>
-    <div class="card">
-     <span class="tag warn">Recomendación condicionada</span>
-     <p><b>No recomendaría adoptar sin modificaciones la implementación original de Matterport como base de un sistema empresarial nuevo y crítico.</b> Sí la recomendaría para aprendizaje, investigación, prototipos controlados o como referencia técnica, siempre que se acepte trabajar con un entorno legado y validar el comportamiento.</p>
-     <p>Su valor está en que entrega una implementación comprensible de segmentación de instancias, notebooks de inspección, pesos preentrenados y una ruta para entrenar con datasets propios. Estas características facilitan experimentar y entender cómo una red puede separar objetos de una imagen.</p>
-     <p>La principal desventaja es el costo de sostener su stack. El repositorio se construyó alrededor de versiones antiguas de TensorFlow y Keras, no fija todas las dependencias y mantiene un volumen considerable de issues abiertos en el corte revisado. Esto aumenta el esfuerzo de instalación, depuración, actualización y soporte.</p>
-     <p>En el caso de los ríos, además, el modelo no puede inferir contaminación invisible a partir de una imagen RGB. Su salida sería una alerta visual que debe validarse en campo, no un diagnóstico ambiental definitivo.</p>
-    </div>
-   </section>
-
-   <section id="factores" class="reveal">
-    <div class="section-head"><div class="num">5b</div><h2>Factores de contexto críticos</h2></div>
-    <div class="grid2">
-     <div class="card"><h3>1. Datos y representatividad</h3><p>Se necesitan imágenes etiquetadas por expertos, de distintas estaciones, condiciones climáticas, alturas, horas, turbidez, reflejos y tipos de río. Los datos deben representar el contexto real de operación.</p></div>
-     <div class="card"><h3>2. Definición de contaminación</h3><p>Hay que distinguir indicios visibles de contaminación confirmada. Espuma natural, sedimentos, reflejos o materia orgánica pueden generar falsos positivos.</p></div>
-     <div class="card"><h3>3. Capacidad computacional</h3><p>Las imágenes de alta resolución requieren memoria y GPU. Se debe medir rendimiento por imagen, consumo de VRAM, tiempo de inferencia y capacidad de procesar lotes.</p></div>
-     <div class="card"><h3>4. Integración tecnológica</h3><p>Importan el formato de las imágenes, georreferenciación, almacenamiento, conexión con el sistema de drones, base de datos, panel de monitoreo y trazabilidad de cada alerta.</p></div>
-     <div class="card"><h3>5. Mantenimiento y seguridad</h3><p>Dependencias congeladas, vulnerabilidades, licencias, reproducibilidad, documentación, responsable técnico y posibilidad de migrar a versiones mantenidas.</p></div>
-     <div class="card"><h3>6. Validación y responsabilidad</h3><p>Definir métricas por clase, precisión, recall, IoU/mAP, falsos negativos y protocolo de revisión humana. Una alerta no debe reemplazar muestreos químicos o microbiológicos.</p></div>
-    </div>
-   </section>
-
-   <section id="escenarios" class="reveal">
-    <div class="section-head"><div class="num">5c</div><h2>¿En qué escenarios la usaría?</h2></div>
-    <div class="grid2">
+   <!-- 5a -->
+   <section class="slide" id="recomendacion" data-group="recomendacion">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">5a</div><h2>¿Recomendaría la librería?</h2></div>
      <div class="card">
-      <span class="tag">Sí la consideraría</span><h3>Prototipo de inspección visual</h3><p>Para segmentar residuos sólidos flotantes o manchas superficiales claramente visibles, siempre que se disponga de un dataset propio y se mida el desempeño.</p>
-      <h3>Investigación y formación</h3><p>Para estudiar segmentación de instancias, probar transfer learning, comparar métricas y enseñar el funcionamiento de una arquitectura conocida.</p>
-      <h3>Procesamiento por lotes</h3><p>En un entorno controlado, donde se analizan imágenes después del vuelo y un profesional revisa las predicciones.</p>
-     </div>
-     <div class="card">
-      <span class="tag bad">No la elegiría</span><h3>Diagnóstico químico directo</h3><p>No sirve para determinar contaminantes disueltos o microorganismos que no sean visibles en la imagen.</p>
-      <h3>Operación crítica sin supervisión</h3><p>No la desplegaría como autoridad autónoma para sancionar, certificar o descartar contaminación.</p>
-      <h3>Proyecto nuevo con stack moderno</h3><p>No sería mi primera opción si no existe capacidad para mantener versiones legacy. Evaluaría alternativas mantenidas y arquitecturas actuales.</p>
+      <span class="tag warn">Recomendación condicionada</span>
+      <p><b>No recomendaría adoptar sin modificaciones la implementación original de Matterport como base de un sistema empresarial nuevo y crítico.</b> Sí la recomendaría para aprendizaje, investigación, prototipos controlados o como referencia técnica, siempre que se acepte trabajar con un entorno legado y validar el comportamiento.</p>
+      <p>Su valor está en que entrega una implementación comprensible de segmentación de instancias, notebooks de inspección, pesos preentrenados y una ruta para entrenar con datasets propios. Estas características facilitan experimentar y entender cómo una red puede separar objetos de una imagen.</p>
      </div>
     </div>
    </section>
 
-   <section id="conclusion" class="reveal">
-    <div class="section-head"><div class="num">✓</div><h2>Conclusión general</h2></div>
-    <div class="card">
-     <p>Mask R-CNN es técnicamente pertinente cuando el objetivo es localizar y segmentar objetos o regiones visibles dentro de una imagen. En el escenario propuesto podría ayudar a detectar indicios superficiales como residuos flotantes o manchas, si el modelo se entrena y valida con datos específicos del Valle del Cauca.</p>
-     <p>Sin embargo, la implementación original de Matterport presenta una brecha tecnológica frente al ecosistema actual de Python, TensorFlow y Keras, y su mantenimiento puede representar un costo relevante. Por ello, la decisión empresarial debería comparar el esfuerzo de modernizar esta implementación con el uso de una alternativa más vigente.</p>
-     <p><b>Recomendación final:</b> utilizarla únicamente como referencia o prototipo de investigación, no como solución productiva directa. Antes de invertir, realizar una prueba de concepto con datos reales, establecer criterios de aceptación y complementar la visión artificial con sensores y análisis de laboratorio.</p>
+   <section class="slide" id="recomendacion-2" data-group="recomendacion">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">5a</div><h2>Desventajas y límites</h2></div>
+     <div class="card">
+      <p>La principal desventaja es el costo de sostener su stack. El repositorio se construyó alrededor de versiones antiguas de TensorFlow y Keras, no fija todas las dependencias y mantiene un volumen considerable de issues abiertos en el corte revisado. Esto aumenta el esfuerzo de instalación, depuración, actualización y soporte.</p>
+      <p>En el caso de los ríos, además, el modelo no puede inferir contaminación invisible a partir de una imagen RGB. Su salida sería una alerta visual que debe validarse en campo, no un diagnóstico ambiental definitivo.</p>
+     </div>
     </div>
    </section>
 
-   <section id="fuentes" class="reveal">
-    <div class="section-head"><div class="num">↗</div><h2>Fuentes consultadas</h2></div>
-    <div class="card">
-     <ul>
-      <li><a href="https://github.com/matterport/Mask_RCNN" target="_blank">Matterport: Mask R-CNN (README y código fuente)</a></li>
-      <li><a href="https://github.com/matterport/Mask_RCNN/blob/master/requirements.txt" target="_blank">Matterport: requirements.txt</a></li>
-      <li><a href="https://github.com/matterport/Mask_RCNN/issues" target="_blank">Matterport: Issues de GitHub</a></li>
-      <li><a href="https://arxiv.org/abs/1703.06870" target="_blank">He et al. (2017): Mask R-CNN, artículo original</a></li>
-      <li><a href="https://www.tensorflow.org/versions" target="_blank">TensorFlow: versiones y documentación</a> y <a href="https://keras.io/" target="_blank">Keras: documentación oficial</a></li>
-      <li><a href="https://pypi.org/" target="_blank">Python Package Index (PyPI)</a>: historial de versiones de dependencias, consultado en noviembre de 2026.</li>
-     </ul>
-     <p class="muted">Nota: las versiones cambian con el tiempo. La comparación corresponde a la consulta realizada en noviembre de 2026. El conteo de issues indica el alcance de la muestra y la fecha de consulta, no una cifra histórica permanente.</p>
+   <!-- 5b -->
+   <section class="slide" id="factores" data-group="factores">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">5b</div><h2>Factores de contexto críticos</h2></div>
+     <div class="grid3">
+      <div class="card"><h3>1. Datos y representatividad</h3><p>Se necesitan imágenes etiquetadas por expertos, de distintas estaciones, condiciones climáticas, alturas, horas, turbidez, reflejos y tipos de río. Los datos deben representar el contexto real de operación.</p></div>
+      <div class="card"><h3>2. Definición de contaminación</h3><p>Hay que distinguir indicios visibles de contaminación confirmada. Espuma natural, sedimentos, reflejos o materia orgánica pueden generar falsos positivos.</p></div>
+      <div class="card"><h3>3. Capacidad computacional</h3><p>Las imágenes de alta resolución requieren memoria y GPU. Se debe medir rendimiento por imagen, consumo de VRAM, tiempo de inferencia y capacidad de procesar lotes.</p></div>
+      <div class="card"><h3>4. Integración tecnológica</h3><p>Importan el formato de las imágenes, georreferenciación, almacenamiento, conexión con el sistema de drones, base de datos, panel de monitoreo y trazabilidad de cada alerta.</p></div>
+      <div class="card"><h3>5. Mantenimiento y seguridad</h3><p>Dependencias congeladas, vulnerabilidades, licencias, reproducibilidad, documentación, responsable técnico y posibilidad de migrar a versiones mantenidas.</p></div>
+      <div class="card"><h3>6. Validación y responsabilidad</h3><p>Definir métricas por clase, precisión, recall, IoU/mAP, falsos negativos y protocolo de revisión humana. Una alerta no debe reemplazar muestreos químicos o microbiológicos.</p></div>
+     </div>
     </div>
    </section>
+
+   <!-- 5c -->
+   <section class="slide" id="escenarios" data-group="escenarios">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">5c</div><h2>¿En qué escenarios la usaría?</h2></div>
+     <div class="grid2">
+      <div class="card">
+       <span class="tag">Sí la consideraría</span><h3>Prototipo de inspección visual</h3><p>Para segmentar residuos sólidos flotantes o manchas superficiales claramente visibles, siempre que se disponga de un dataset propio y se mida el desempeño.</p>
+       <h3>Investigación y formación</h3><p>Para estudiar segmentación de instancias, probar transfer learning, comparar métricas y enseñar el funcionamiento de una arquitectura conocida.</p>
+       <h3>Procesamiento por lotes</h3><p>En un entorno controlado, donde se analizan imágenes después del vuelo y un profesional revisa las predicciones.</p>
+      </div>
+      <div class="card">
+       <span class="tag bad">No la elegiría</span><h3>Diagnóstico químico directo</h3><p>No sirve para determinar contaminantes disueltos o microorganismos que no sean visibles en la imagen.</p>
+       <h3>Operación crítica sin supervisión</h3><p>No la desplegaría como autoridad autónoma para sancionar, certificar o descartar contaminación.</p>
+       <h3>Proyecto nuevo con stack moderno</h3><p>No sería mi primera opción si no existe capacidad para mantener versiones legacy. Evaluaría alternativas mantenidas y arquitecturas actuales.</p>
+      </div>
+     </div>
+    </div>
+   </section>
+
+   <!-- Conclusión -->
+   <section class="slide" id="conclusion" data-group="conclusion">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">✓</div><h2>Conclusión general</h2></div>
+     <div class="card">
+      <p>Mask R-CNN es técnicamente pertinente cuando el objetivo es localizar y segmentar objetos o regiones visibles dentro de una imagen. En el escenario propuesto podría ayudar a detectar indicios superficiales como residuos flotantes o manchas, si el modelo se entrena y valida con datos específicos del Valle del Cauca.</p>
+      <p>Sin embargo, la implementación original de Matterport presenta una brecha tecnológica frente al ecosistema actual de Python, TensorFlow y Keras, y su mantenimiento puede representar un costo relevante. Por ello, la decisión empresarial debería comparar el esfuerzo de modernizar esta implementación con el uso de una alternativa más vigente.</p>
+     </div>
+    </div>
+   </section>
+
+   <section class="slide" id="conclusion-2" data-group="conclusion">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">✓</div><h2>Recomendación final</h2></div>
+     <div class="callout"><b>Recomendación final:</b> utilizarla únicamente como referencia o prototipo de investigación, no como solución productiva directa. Antes de invertir, realizar una prueba de concepto con datos reales, establecer criterios de aceptación y complementar la visión artificial con sensores y análisis de laboratorio.</div>
+    </div>
+   </section>
+
+   <!-- Fuentes -->
+   <section class="slide" id="fuentes" data-group="fuentes">
+    <div class="slide-inner">
+     <div class="section-head"><div class="num">↗</div><h2>Fuentes consultadas</h2></div>
+     <div class="card">
+      <ul>
+       <li><a href="https://github.com/matterport/Mask_RCNN" target="_blank">Matterport: Mask R-CNN (README y código fuente)</a></li>
+       <li><a href="https://github.com/matterport/Mask_RCNN/blob/master/requirements.txt" target="_blank">Matterport: requirements.txt</a></li>
+       <li><a href="https://github.com/matterport/Mask_RCNN/issues" target="_blank">Matterport: Issues de GitHub</a></li>
+       <li><a href="https://arxiv.org/abs/1703.06870" target="_blank">He et al. (2017): Mask R-CNN, artículo original</a></li>
+       <li><a href="https://www.tensorflow.org/versions" target="_blank">TensorFlow: versiones y documentación</a> y <a href="https://keras.io/" target="_blank">Keras: documentación oficial</a></li>
+       <li><a href="https://pypi.org/" target="_blank">Python Package Index (PyPI)</a>: historial de versiones de dependencias, consultado en noviembre de 2026.</li>
+      </ul>
+      <p class="muted">Nota: las versiones cambian con el tiempo. La comparación corresponde a la consulta realizada en noviembre de 2026. El conteo de issues indica el alcance de la muestra y la fecha de consulta, no una cifra histórica permanente.</p>
+     </div>
+     <p class="muted"><b>Evaluación técnica de Mask R-CNN.</b> Trabajo académico: Visión artificial aplicada a la inspección de ríos.</p>
+    </div>
+   </section>
+
+  </div>
+
+  <div class="controls">
+   <button id="tocBtn" title="Mostrar u ocultar el índice (T)">Índice</button>
+   <button id="prev" title="Anterior (←)">← Anterior</button>
+   <div class="progress"><i id="bar"></i></div>
+   <span class="count" id="count"></span>
+   <button id="next" title="Siguiente (→)">Siguiente →</button>
+   <span class="spacer"></span>
+   <button id="fs" title="Pantalla completa (F)">Pantalla completa</button>
   </div>
  </div>
-</main>
-<footer>
- <b>Evaluación técnica de Mask R-CNN</b><br>
- Trabajo académico: Visión artificial aplicada a la inspección de ríos<br>
- <span>Documento web con animaciones CSS y navegación por secciones.</span>
-</footer>
+</div>
+
 <script>
-const observer = new IntersectionObserver((entries)=>{
- entries.forEach(entry=>{
-  if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}
+(function(){
+ const slides=[...document.querySelectorAll('.slide')];
+ const tocLinks=[...document.querySelectorAll('#toc a')];
+ const app=document.getElementById('app');
+ const bar=document.getElementById('bar'),count=document.getElementById('count');
+ const prev=document.getElementById('prev'),next=document.getElementById('next');
+ let cur=-1;
+
+ function go(i,push){
+  i=Math.max(0,Math.min(slides.length-1,i));
+  if(i===cur)return;
+  if(cur>=0)slides[cur].classList.remove('active');
+  cur=i;
+  const s=slides[i];
+  s.classList.add('active');
+  s.scrollTop=0;
+  const group=s.dataset.group;
+  tocLinks.forEach(a=>a.classList.toggle('current',a.getAttribute('href')==='#'+group));
+  count.textContent=(i+1)+' / '+slides.length;
+  bar.style.width=((i+1)/slides.length*100)+'%';
+  prev.disabled=i===0;next.disabled=i===slides.length-1;
+  if(push!==false){try{history.replaceState(null,'','#'+s.id)}catch(e){}}
+  if(app.classList.contains('toc-open')&&push!==false)app.classList.remove('toc-open');
+ }
+ function fromHash(){
+  const id=location.hash.slice(1);
+  const i=slides.findIndex(s=>s.id===id);
+  go(i>=0?i:0,false);
+ }
+
+ tocLinks.forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  const i=slides.findIndex(s=>s.id===a.getAttribute('href').slice(1));
+  if(i>=0)go(i);
+ }));
+ prev.addEventListener('click',()=>go(cur-1));
+ next.addEventListener('click',()=>go(cur+1));
+ document.getElementById('tocBtn').addEventListener('click',toggleToc);
+ document.getElementById('fs').addEventListener('click',toggleFs);
+ window.addEventListener('hashchange',fromHash);
+
+ function toggleToc(){
+  if(window.matchMedia('(max-width:900px)').matches)app.classList.toggle('toc-open');
+  else app.classList.toggle('toc-hidden');
+ }
+ function toggleFs(){
+  if(document.fullscreenElement)document.exitFullscreen();
+  else if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();
+ }
+
+ document.addEventListener('keydown',e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  switch(e.key){
+   case 'ArrowRight':case 'PageDown':case ' ':case 'Enter':e.preventDefault();go(cur+1);break;
+   case 'ArrowLeft':case 'PageUp':case 'Backspace':e.preventDefault();go(cur-1);break;
+   case 'Home':e.preventDefault();go(0);break;
+   case 'End':e.preventDefault();go(slides.length-1);break;
+   case 'f':case 'F':toggleFs();break;
+   case 't':case 'T':toggleToc();break;
+  }
  });
-},{threshold:.10});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+ // Gesto táctil: deslizar para cambiar de diapositiva
+ let x0=null,y0=null;
+ const vp=document.getElementById('viewport');
+ vp.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+ vp.addEventListener('touchend',e=>{
+  if(x0===null)return;
+  const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)go(cur+(dx<0?1:-1));
+  x0=null;
+ },{passive:true});
+
+ fromHash();
+})();
 </script>
 </body>
 </html>

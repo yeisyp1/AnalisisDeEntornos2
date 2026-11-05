@@ -6,80 +6,113 @@
 <meta name="description" content="Taller de evaluación técnica de la librería Mask R-CNN para análisis de contaminación en ríos.">
 <title>Evaluación técnica de Mask R-CNN | Visión artificial</title>
 <style>
-
 :root{
- --bg:#f5f7f5;--panel:#ffffff;--panel2:#f0f4f1;--line:#d9e2dc;--text:#202b26;--muted:#68776e;
- --mint:#2e6b50;--lime:#527b45;--orange:#9a641e;--red:#a4473f;--blue:#376783;
- --radius:8px;--toc:240px;--bar:56px
+ --bg:#071a1d;--panel:#10292c;--line:#285054;--text:#ecf6ef;--muted:#a8c2b8;
+ --mint:#8ce0bd;--lime:#c6e58a;--orange:#ffbd75;--red:#ff8b83;--blue:#9ac9ef;
+ --shadow:0 18px 50px rgba(0,0,0,.28);--toc:240px;--bar:58px
 }
-*{box-sizing:border-box}
-html{font-size:clamp(15px,1.3vw,24px)}
+*{box-sizing:border-box;scrollbar-color:#285054 transparent}
+html{font-size:clamp(15px,1.3vw,24px);color-scheme:dark}
 html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.6 Arial,Helvetica,sans-serif;overflow:hidden}
-a{color:#286247;text-decoration:underline;text-underline-offset:2px}
-a:hover{color:#173e2d}
+body{margin:0;background:radial-gradient(circle at 82% 0%,#174146 0,transparent 32%),radial-gradient(circle at 5% 100%,#0f3a3a 0,transparent 30%),var(--bg);color:var(--text);font:1rem/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;overflow:hidden}
+a{color:var(--mint);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#173638;color:var(--lime);padding:1px 6px;border-radius:5px;font-size:.9em}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:#285054;border-radius:6px}::-webkit-scrollbar-track{background:transparent}
 
 /* Estructura de la presentación */
 .app{display:grid;grid-template-columns:var(--toc) minmax(0,1fr);height:100vh;height:100dvh}
 .app.toc-hidden{grid-template-columns:0 minmax(0,1fr)}
-aside{background:#fff;border-right:1px solid var(--line);padding:18px 14px;overflow-y:auto;overflow-x:hidden;transition:padding .2s}
+aside{background:rgba(13,36,39,.94);border-right:1px solid var(--line);padding:20px 14px;overflow-y:auto;overflow-x:hidden;transition:padding .2s}
 .app.toc-hidden aside{padding:0;border-right:0}
-aside h3{font-size:.72rem;color:#68776e;letter-spacing:.08em;text-transform:uppercase;margin:2px 8px 12px}
-aside a{display:block;padding:8px 10px;color:#43574a;border-radius:5px;font-size:.85rem;line-height:1.35;text-decoration:none;transition:background .2s,color .2s;margin-bottom:2px}
-aside a:hover{background:#edf3ee;color:#1e5b3b}
-aside a.current{background:#e3eee6;color:#1e5b3b;font-weight:700}
+aside h3{font-size:.74rem;color:var(--muted);letter-spacing:.13em;text-transform:uppercase;margin:2px 8px 14px}
+aside a{display:block;padding:9px 12px;color:#bed1c9;border-radius:10px;font-size:.86rem;line-height:1.35;transition:background .2s,color .2s,transform .2s;margin-bottom:3px}
+aside a:hover{background:#1a3b3d;color:var(--mint);text-decoration:none;transform:translateX(3px)}
+aside a.current{background:#1d4a45;color:var(--mint);font-weight:700;box-shadow:inset 3px 0 0 var(--mint)}
 .stage{display:flex;flex-direction:column;min-width:0;height:100%}
 .viewport{position:relative;flex:1;min-height:0;overflow:hidden}
+.viewport:before{content:"";position:absolute;width:560px;height:560px;border:1px solid #6bbd9a33;border-radius:50%;right:-170px;top:-280px;box-shadow:0 0 0 40px #6bbd9a0c,0 0 0 90px #6bbd9a08;pointer-events:none}
+.progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:#173638;z-index:5}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--lime));transition:width .3s}
 
 /* Diapositivas */
 .slide{position:absolute;inset:0;display:none;overflow-y:auto;padding:2.2rem 3.2rem}
-.slide.active{display:flex;animation:enter .4s ease}
-@keyframes enter{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.slide.active{display:flex}
 .slide-inner{margin:auto;width:100%;max-width:1120px}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 #8ce0bd00}50%{box-shadow:0 0 0 9px #8ce0bd18}}
+.slide.active .slide-inner>*{animation:rise .6s cubic-bezier(.2,.8,.2,1) backwards}
+.slide.active .slide-inner>*:nth-child(2){animation-delay:.08s}
+.slide.active .slide-inner>*:nth-child(3){animation-delay:.16s}
+.slide.active .slide-inner>*:nth-child(4){animation-delay:.24s}
+.slide.active .slide-inner>*:nth-child(n+5){animation-delay:.32s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics)>*{animation:rise .6s cubic-bezier(.2,.8,.2,1) backwards}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics)>*:nth-child(1){animation-delay:.2s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics)>*:nth-child(2){animation-delay:.28s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics)>*:nth-child(3){animation-delay:.36s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics)>*:nth-child(4){animation-delay:.44s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics)>*:nth-child(5){animation-delay:.52s}
+.slide.active :is(.grid2,.grid3,.kpi-row,.pipeline,.metrics)>*:nth-child(6){animation-delay:.6s}
+
 .section-head{display:flex;align-items:center;gap:14px;margin:0 0 1.1rem}
-.num{min-width:2.4rem;height:2.4rem;padding:0 .4rem;border-radius:6px;background:#e7efe9;color:#315e43;display:grid;place-items:center;font-weight:700;font-size:1rem}
-h1{font-size:clamp(2.2rem,4.4vw,4rem);line-height:1.12;letter-spacing:-.035em;max-width:920px;margin:14px 0 18px;color:#1e3428}
-h2{font-size:clamp(1.6rem,2.8vw,2.4rem);letter-spacing:-.02em;line-height:1.2;margin:0;color:#20392b}
-h3{margin:0 0 8px;font-size:1.1rem;color:#293d31}
-p{margin:0 0 .8rem;color:#35443b}
-.eyebrow{color:#54745c;text-transform:uppercase;font-size:.8rem;font-weight:700;letter-spacing:.12em}
-.lead{max-width:800px;color:#59675f;font-size:1.2rem}
-.hint{margin-top:2rem;font-size:.85rem;color:#68776e}
-.kbd{display:inline-block;border:1px solid #c9d6cd;border-bottom-width:2px;border-radius:4px;padding:0 6px;background:#fff;font-size:.8rem;color:#43574a}
-.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:1.4rem;margin:.8rem 0}
+.num{min-width:2.6rem;height:2.6rem;padding:0 .5rem;border-radius:13px;background:#214b43;color:var(--mint);display:grid;place-items:center;font-weight:900;font-size:1rem;animation:glow 4s infinite}
+h1{font-size:clamp(2.4rem,5vw,4.6rem);line-height:1.05;letter-spacing:-.05em;max-width:940px;margin:16px 0 22px;background:linear-gradient(100deg,#ecf6ef 25%,var(--mint) 65%,var(--lime));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(1.6rem,2.8vw,2.4rem);letter-spacing:-.03em;line-height:1.15;margin:0;color:#f1faf4}
+h3{margin:0 0 8px;font-size:1.1rem;color:#f1faf4}
+p{margin:0 0 .8rem;color:#d0dfd7}
+b{color:#f1faf4}
+.eyebrow{color:var(--lime);text-transform:uppercase;font-size:.8rem;font-weight:800;letter-spacing:.2em}
+.lead{max-width:800px;color:#c5d8d0;font-size:1.2rem}
+.hint{margin-top:1.6rem;font-size:.85rem;color:var(--muted)}
+.kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 7px;background:#10292c;font-size:.8rem;color:var(--mint)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin:1.4rem 0 1.6rem}
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:.7rem 1.2rem;font:inherit;font-weight:750;font-size:.9rem;border:1px solid var(--line);color:var(--text);background:transparent;cursor:pointer;transition:transform .25s,background .25s}
+.btn.primary{background:var(--mint);color:#08201d;border-color:var(--mint)}
+.btn:hover{transform:translateY(-3px);text-decoration:none}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+.metric,.card{background:linear-gradient(145deg,#143337,#0e2529);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.metric{padding:1.1rem}
+.metric strong{display:block;font-size:1.9rem;color:var(--mint);line-height:1.2}
+.metric span{font-size:.82rem;color:var(--muted)}
+.card{padding:1.4rem;margin:.8rem 0;transition:border-color .25s,transform .25s}
+.card:hover{border-color:#3f8576}
 .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
 .grid2>.card,.grid3>.card{margin:0}
-.tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:.75rem;font-weight:700;letter-spacing:.02em;background:#edf3ee;color:#315e43;margin:0 4px 6px 0}
-.tag.warn{background:#f7f0e5;color:#80551e}.tag.bad{background:#f8eae8;color:#91443d}.tag.info{background:#eaf1f5;color:#376783}
-ul{padding-left:1.3rem;color:#35443b;margin:.4rem 0 0}li{margin:.4rem 0}
-.callout{border-left:4px solid #5b8768;padding:.8rem 1rem;background:#f1f6f2;border-radius:0 4px 4px 0;color:#34483a;margin:1rem 0}
-.callout.warning{border-left-color:#b17b35;background:#faf5ec}
+.tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.74rem;font-weight:800;letter-spacing:.04em;background:#23483d;color:var(--mint);margin:0 5px 7px 0}
+.tag.warn{background:#4c3927;color:var(--orange)}.tag.bad{background:#4b292a;color:var(--red)}.tag.info{background:#223d50;color:var(--blue)}
+ul{padding-left:1.3rem;color:#d0dfd7;margin:.4rem 0 0}li{margin:.5rem 0}
+.callout{border-left:4px solid var(--mint);padding:.9rem 1.1rem;background:#173638;border-radius:0 14px 14px 0;color:#d5e9dd;margin:1rem 0}
+.callout.warning{border-left-color:var(--orange);background:#2b2a22}
 table{border-collapse:collapse;width:100%;font-size:.88rem}
-.table-wrap{border:1px solid var(--line);border-radius:6px;margin:.8rem 0;background:#fff}
-th,td{text-align:left;padding:.6rem .75rem;border-bottom:1px solid #e3e9e4;vertical-align:top}
-th{background:#edf2ee;color:#314e3b;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
-td{color:#35443b}tr:last-child td{border-bottom:0}
+.table-wrap{border:1px solid var(--line);border-radius:15px;margin:.8rem 0;background:rgba(16,41,44,.55);overflow:hidden}
+th,td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid #28484a;vertical-align:top}
+th{background:#1a3b3d;color:var(--mint);font-size:.76rem;text-transform:uppercase;letter-spacing:.05em}
+td{color:#d5e4dc}tr:last-child td{border-bottom:0}
+tbody tr{transition:background .2s}tbody tr:hover{background:#173a3c}
 small,.muted{color:var(--muted)}
 small{font-size:.8rem;display:block;margin-top:.5rem}
 .pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin:1.1rem 0}
-.step{background:#f4f7f4;border:1px solid #dce6de;border-radius:6px;padding:.9rem;text-align:center}
-.step b{display:block;color:#315e43;font-size:1rem}
-.step span{font-size:.85rem;color:#68776e}
+.step{background:#193a3b;border:1px solid #35605b;border-radius:15px;padding:.9rem;text-align:center;transition:transform .25s,border-color .25s}
+.step:hover{transform:translateY(-4px);border-color:var(--mint)}
+.step b{display:block;color:var(--mint);font-size:1rem}
+.step span{font-size:.85rem;color:var(--muted)}
 .kpi-row{display:flex;gap:.7rem;flex-wrap:wrap;margin:1rem 0}
-.kpi{padding:.9rem 1.1rem;background:#f2f6f2;border:1px solid #e0e8e1;border-radius:6px;flex:1;min-width:140px}
-.kpi b{display:block;color:#315e43;font-size:2rem;line-height:1.2}
-.kpi span{font-size:.85rem;color:#68776e}
+.kpi{padding:1rem 1.1rem;background:#193b3c;border:1px solid #2c5a56;border-radius:14px;flex:1;min-width:140px}
+.kpi b{display:block;color:var(--lime);font-size:2.1rem;line-height:1.2}
+.kpi span{font-size:.85rem;color:var(--muted)}
 
-/* Barra de control */
-.controls{height:var(--bar);flex:none;display:flex;align-items:center;gap:12px;padding:0 18px;background:#fff;border-top:1px solid var(--line)}
-.controls button{font:inherit;font-size:.85rem;border:1px solid #c9d6cd;background:#fff;color:#315e43;border-radius:6px;padding:6px 14px;cursor:pointer}
-.controls button:hover{background:#edf3ee}
-.controls button:disabled{opacity:.4;cursor:default}
-.progress{flex:1;height:5px;background:#e3e9e4;border-radius:3px;overflow:hidden}
-.progress i{display:block;height:100%;width:0;background:#4f8a69;transition:width .3s}
-.count{font-size:.85rem;color:#59675f;min-width:62px;text-align:center}
-.spacer{width:1px;height:22px;background:var(--line)}
+/* Barra de control: solo flechas */
+.controls{height:var(--bar);flex:none;display:flex;align-items:center;justify-content:center;gap:16px;padding:0 18px;background:rgba(7,26,29,.94);border-top:1px solid var(--line);position:relative;z-index:6;transition:transform .3s,opacity .3s}
+.nav-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#10292c;color:var(--mint);font:inherit;font-size:1.2rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s,transform .2s}
+.nav-btn:hover:not(:disabled){background:var(--mint);color:#08201d;transform:scale(1.08)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.count{min-width:70px;text-align:center;font-size:.9rem;color:var(--muted)}
+.menu-btn{display:none;position:absolute;left:14px}
+
+/* Pantalla completa: la barra se oculta y reaparece al mover el mouse */
+.app.fs .controls{position:fixed;left:0;right:0;bottom:0}
+.app.fs:not(.show-ui) .controls{transform:translateY(100%);opacity:0;pointer-events:none}
+.app.fs:not(.show-ui){cursor:none}
 
 @media(max-width:900px){
  .app,.app.toc-hidden{grid-template-columns:0 minmax(0,1fr)}
@@ -88,15 +121,18 @@ small{font-size:.8rem;display:block;margin-top:.5rem}
  .app.toc-open aside{padding:18px 14px;border-right:1px solid var(--line)}
  .app.toc-open .stage{display:none}
  .slide{padding:1.4rem 1.1rem}
- .grid3{grid-template-columns:1fr 1fr}
+ .grid3,.metrics{grid-template-columns:1fr 1fr}
+ .menu-btn{display:grid}
 }
-@media(max-width:600px){.grid2,.grid3,.pipeline{grid-template-columns:1fr}.hint{display:none}.controls #fs{display:none}}
+@media(max-width:600px){.grid2,.grid3,.pipeline,.metrics{grid-template-columns:1fr}.hint{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 @media print{
- body{overflow:visible;background:#fff}.app{display:block;height:auto}aside,.controls{display:none}
+ *{animation:none!important}
+ body{overflow:visible;background:#fff;color:#111}.app{display:block;height:auto}aside,.controls,.progress,.viewport:before,.hero-actions,.hint{display:none}
  .stage,.viewport{display:block;height:auto;overflow:visible}
- .slide,.slide.active{position:static;display:block;overflow:visible;padding:18px 0;break-after:page;animation:none}
- .card,.table-wrap{break-inside:avoid}
+ .slide,.slide.active{position:static;display:block;overflow:visible;padding:18px 0;break-after:page}
+ .card,.metric,.kpi,.step,.callout,.table-wrap{background:#fff!important;border:1px solid #aaa;box-shadow:none;break-inside:avoid}
+ p,li,td,h2,h3,b,.lead{color:#222!important}h1{-webkit-text-fill-color:#123;color:#123}th{background:#eee;color:#111}a{color:#064}
 }
 
 </style>
@@ -122,7 +158,13 @@ small{font-size:.8rem;display:block;margin-top:.5rem}
      <div class="eyebrow">Informe técnico: Visión artificial</div>
      <h1>¿Puede Mask R-CNN ayudar a vigilar la salud de los ríos?</h1>
      <p class="lead">Análisis técnico de la librería de Matterport para valorar su utilidad, compatibilidad, mantenimiento y riesgos de adopción en una empresa que inspecciona ríos mediante drones.</p>
-     <p class="muted">Evaluación tecnológica: Caso agroindustrial</p>
+     <div class="hero-actions"><button class="btn primary" id="start">Comenzar →</button><a class="btn" href="https://github.com/matterport/Mask_RCNN" target="_blank" rel="noreferrer">Repositorio en GitHub ↗</a></div>
+     <div class="metrics">
+      <div class="metric"><strong>2017</strong><span>Año de publicación original</span></div>
+      <div class="metric"><strong>Python 3</strong><span>Lenguaje principal</span></div>
+      <div class="metric"><strong>15+</strong><span>Paquetes listados en requirements y extras del proyecto</span></div>
+      <div class="metric"><strong>Legacy</strong><span>Estado tecnológico: requiere modernización</span></div>
+     </div>
      <p class="hint">Navega con las flechas <span class="kbd">←</span> <span class="kbd">→</span>, la barra espaciadora o el índice de la izquierda. <span class="kbd">F</span> pantalla completa, <span class="kbd">T</span> oculta el índice.</p>
     </div>
    </section>
@@ -393,16 +435,14 @@ small{font-size:.8rem;display:block;margin-top:.5rem}
     </div>
    </section>
 
+  <div class="progress"><i id="bar"></i></div>
   </div>
 
   <div class="controls">
-   <button id="tocBtn" title="Mostrar u ocultar el índice (T)">Índice</button>
-   <button id="prev" title="Anterior (←)">← Anterior</button>
-   <div class="progress"><i id="bar"></i></div>
+   <button class="nav-btn menu-btn" id="tocBtn" title="Índice" aria-label="Índice">☰</button>
+   <button class="nav-btn" id="prev" title="Anterior" aria-label="Anterior">←</button>
    <span class="count" id="count"></span>
-   <button id="next" title="Siguiente (→)">Siguiente →</button>
-   <span class="spacer"></span>
-   <button id="fs" title="Pantalla completa (F)">Pantalla completa</button>
+   <button class="nav-btn" id="next" title="Siguiente" aria-label="Siguiente">→</button>
   </div>
  </div>
 </div>
@@ -446,8 +486,24 @@ small{font-size:.8rem;display:block;margin-top:.5rem}
  prev.addEventListener('click',()=>go(cur-1));
  next.addEventListener('click',()=>go(cur+1));
  document.getElementById('tocBtn').addEventListener('click',toggleToc);
- document.getElementById('fs').addEventListener('click',toggleFs);
+ document.getElementById('start').addEventListener('click',()=>go(cur+1));
  window.addEventListener('hashchange',fromHash);
+
+ // Pantalla completa: la barra inferior se oculta y reaparece al mover el mouse
+ let uiTimer;
+ function showUi(){
+  if(!document.fullscreenElement)return;
+  app.classList.add('show-ui');
+  clearTimeout(uiTimer);
+  uiTimer=setTimeout(()=>app.classList.remove('show-ui'),2200);
+ }
+ document.addEventListener('fullscreenchange',()=>{
+  const on=!!document.fullscreenElement;
+  app.classList.toggle('fs',on);
+  app.classList.remove('show-ui');
+  clearTimeout(uiTimer);
+ });
+ document.addEventListener('mousemove',showUi);
 
  function toggleToc(){
   if(window.matchMedia('(max-width:900px)').matches)app.classList.toggle('toc-open');

@@ -317,7 +317,6 @@ p.big{margin:1rem 0 1.6rem}
       <div class="tile"><svg class="ico xl"><use href="#i-cpu"/></svg><b>Inferencia</b><span>Detección y máscaras</span></div>
       <div class="tile"><svg class="ico xl"><use href="#i-check"/></svg><b>Validación</b><span>Revisión técnica y ambiental</span></div>
      </div>
-     <p class="cap">Se evalúa si la tecnología sirve como apoyo a la inspección, no se construye el sistema completo.</p>
     </div>
    </section>
 
@@ -354,7 +353,7 @@ p.big{margin:1rem 0 1.6rem}
        <figcaption><b>Etiqueta y confianza, caja punteada y máscara de color por cada objeto</b></figcaption>
       </figure>
      </div>
-     <p class="cap">Detección de objetos y segmentación de instancias: clase, caja, confianza y máscara por cada objeto.</p>
+     <p class="cap">Detección de objetos y segmentación de instancias.</p>
     </div>
    </section>
 
@@ -406,28 +405,6 @@ p.big{margin:1rem 0 1.6rem}
       <div class="card"><h3>Imágenes</h3><div class="chips"><span class="chip">Pillow <small>lectura</small></span><span class="chip">OpenCV <small>preproceso</small></span><span class="chip">scikit-image <small>operaciones</small></span><span class="chip">imgaug <small>aumento de datos</small></span></div></div>
       <div class="card"><h3>Visualización y notebooks</h3><div class="chips"><span class="chip">Matplotlib <small>máscaras y métricas</small></span><span class="chip">IPython <small>exploración</small></span><span class="chip">Jupyter <small>demos</small></span></div></div>
       <div class="card"><h3>Compilación</h3><div class="chips"><span class="chip">Cython <small>extensiones en C</small></span></div></div>
-     </div>
-    </div>
-   </section>
-
-   <section class="slide" id="dependencias-2" data-group="dependencias">
-    <div class="slide-inner">
-     <div class="section-head"><div class="num">2</div><h2>Todo debe encajar entre sí</h2></div>
-     <div class="split">
-      <div class="stack">
-       <div class="layer top">Mask R-CNN</div>
-       <div class="layer" style="--w:66%">NumPy y paquetes científicos</div>
-       <div class="layer" style="--w:78%">Keras</div>
-       <div class="layer" style="--w:90%">TensorFlow</div>
-       <div class="layer" style="--w:96%">CUDA y cuDNN</div>
-       <div class="layer" style="--w:100%">Driver de GPU</div>
-      </div>
-      <div class="card">
-       <svg class="ico xl" style="color:var(--orange)"><use href="#i-alert"/></svg>
-       <h3>Una combinación compatible</h3>
-       <div class="yn n"><svg class="ico"><use href="#i-x"/></svg><div><b>Instalar la última versión de todo</b><span>Puede romper el entorno</span></div></div>
-       <div class="yn y"><svg class="ico"><use href="#i-check"/></svg><div><b>Entorno aislado con versiones fijadas</b><span>Reproducible y probado</span></div></div>
-      </div>
      </div>
     </div>
    </section>
@@ -493,7 +470,6 @@ p.big{margin:1rem 0 1.6rem}
       <div class="tile"><svg class="ico xl"><use href="#i-users"/></svg><b>Personal que conozca el stack</b></div>
       <div class="tile"><svg class="ico xl"><use href="#i-refresh"/></svg><b>Plan de migración</b></div>
      </div>
-     <div class="callout"><svg class="ico"><use href="#i-search"/></svg> Antes de invertir, comparar con implementaciones más mantenidas o modelos modernos equivalentes.</div>
     </div>
    </section>
 
@@ -516,22 +492,18 @@ p.big{margin:1rem 0 1.6rem}
        <div class="kpi"><b>38,1 días</b><span>d. Tiempo promedio de resolución</span></div>
       </div>
      </div>
-    </div>
-   </section>
-
-   <section class="slide" id="issues-2" data-group="issues">
-    <div class="slide-inner">
-     <div class="section-head"><div class="num">4</div><h2>Cómo se obtuvo el conteo</h2></div>
-     <div class="card">
-      <h3>400 entradas recientes en 4 páginas de 100</h3>
-      <div class="bar"><div style="width:88.5%;background:var(--mint);color:#08201d">354 issues</div><div style="width:11.5%;background:#3a5a5b">46 PR</div></div>
-      <p class="muted">Se excluyeron los pull requests (campo pull_request).</p>
+     <div class="grid2">
+      <div class="card">
+       <h3>Cómo se obtuvo el conteo</h3>
+       <div class="bar"><div style="width:88.5%;background:var(--mint);color:#08201d">354 issues</div><div style="width:11.5%;background:#3a5a5b">46 PR</div></div>
+       <p class="muted">400 entradas recientes en 4 páginas de 100, sin los pull requests.</p>
+      </div>
+      <div class="card">
+       <h3>Cómo se calculó el promedio</h3>
+       <div class="formula"><span class="chip">closed_at</span><b>-</b><span class="chip">created_at</span><b>→</b><span class="chip">media de 72 cerrados</span></div>
+       <p class="muted">Es el corte de noviembre de 2026, no el total histórico. No incluye los abiertos.</p>
+      </div>
      </div>
-     <div class="card">
-      <h3>Tiempo promedio de resolución</h3>
-      <div class="formula"><span class="chip">closed_at</span><b>-</b><span class="chip">created_at</span><b>→</b><span class="chip">media de 72 cerrados</span><b>=</b><span class="chip good big2">38,1 días</span></div>
-     </div>
-     <div class="callout"><svg class="ico"><use href="#i-alert"/></svg> Es el corte consultado en noviembre de 2026, no el total histórico. La media es sensible a casos extremos y no incluye los abiertos.</div>
      <small>Fuente: <a href="https://api.github.com/repos/matterport/Mask_RCNN/issues?state=all&per_page=100&page=1" target="_blank">GitHub API pública</a> sobre <a href="https://github.com/matterport/Mask_RCNN/issues" target="_blank">matterport/Mask_RCNN</a>.</small>
     </div>
    </section>
@@ -625,20 +597,6 @@ p.big{margin:1rem 0 1.6rem}
        <div class="yn n"><svg class="ico"><use href="#i-flask"/></svg><div><b>Diagnóstico químico directo</b><span>No ve lo disuelto ni lo microscópico</span></div></div>
        <div class="yn n"><svg class="ico"><use href="#i-alert"/></svg><div><b>Operación crítica sin supervisión</b><span>No sanciona ni certifica sola</span></div></div>
        <div class="yn n"><svg class="ico"><use href="#i-refresh"/></svg><div><b>Proyecto nuevo con stack moderno</b><span>Si no se puede mantener lo legacy</span></div></div>
-      </div>
-     </div>
-    </div>
-   </section>
-
-   <!-- Conclusión -->
-   <section class="slide" id="conclusion" data-group="conclusion">
-    <div class="slide-inner">
-     <div class="split">
-      <svg class="art" viewBox="0 0 320 200" role="img" aria-label="Segmentación de residuos en un río"><use href="#scene" width="320" height="200"/><use href="#ov-mask" width="320" height="200"/></svg>
-      <div>
-       <div class="yn y"><svg class="ico"><use href="#i-check"/></svg><div><b>Pertinente para segmentar lo visible</b><span>Residuos flotantes y manchas, con datos del Valle del Cauca</span></div></div>
-       <div class="yn n"><svg class="ico"><use href="#i-alert"/></svg><div><b>Brecha frente a Python, TensorFlow y Keras actuales</b><span>Mantenerla tiene un costo relevante</span></div></div>
-       <div class="yn y"><svg class="ico"><use href="#i-search"/></svg><div><b>Comparar modernizarla con una alternativa vigente</b></div></div>
       </div>
      </div>
     </div>
